@@ -2,7 +2,6 @@ package inoxoft.simon.shop.viewmodel.stock
 
 import inoxoft.simon.shop.model.stock.Stock
 import inoxoft.simon.shop.model.stock.StockDatabase
-import kotlinx.coroutines.flow.Flow
 
 class Repository (private val db: StockDatabase){
 

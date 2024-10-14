@@ -53,12 +53,14 @@ fun CashFlow(modifier: Modifier = Modifier, navController: NavController, viewMo
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
+    //stores the item added by the user in for of a changing input
     var item by remember {
         mutableStateOf("")
     }
     val stock = Stock(
         item
     )
+        //creates a list of notes that observes the changes in the database
     val noteList by viewModel.getStock().observeAsState(listOf())
 
         Row (modifier = modifier
@@ -88,7 +90,11 @@ fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start) {
         items(noteList.reversed()){note->
-            Row(modifier = Modifier.fillMaxWidth().padding(start = 10.dp, end = 20.dp, bottom = 20.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(modifier = Modifier
+                .fillMaxWidth().
+                padding(start = 10.dp, end = 20.dp, bottom = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = note.stock)
                 IconButton(onClick = { viewModel.deleteStock(note) }) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete note")

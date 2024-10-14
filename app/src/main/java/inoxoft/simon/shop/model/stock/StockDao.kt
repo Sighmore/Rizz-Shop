@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface StockDao {
 
     @Upsert
+    //parameter stock of type Stock
     suspend fun upsertStock(stock: Stock)
 
     @Delete
