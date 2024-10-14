@@ -14,12 +14,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +45,7 @@ import inoxoft.simon.shop.viewmodel.stock.StockViewModel
 fun CashFlow(modifier: Modifier = Modifier, navController: NavController, viewModel: StockViewModel){
    Column(modifier = modifier
    ) {
-       AppHeader(navController)
+       AppHeader()
        CashFlowPage(modifier=Modifier.weight(1f),viewModel)
        BottomBAr(navController)
    }
@@ -53,19 +54,19 @@ fun CashFlow(modifier: Modifier = Modifier, navController: NavController, viewMo
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
+
     //stores the item added by the user in for of a changing input
     var item by remember {
         mutableStateOf("")
     }
-    val stock = Stock(
+    Stock(
         item
     )
         //creates a list of notes that observes the changes in the database
     val noteList by viewModel.getStock().observeAsState(listOf())
-
-        Row (modifier = modifier
-            .fillMaxSize()
-            .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween,
+    Row (modifier = modifier
+        .fillMaxSize()
+        .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top){
             OutlinedTextField(modifier = Modifier
                 .width(250.dp)
@@ -80,7 +81,7 @@ fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
                         item = "" // Clear the text field after adding the
                     }
                 }, modifier = Modifier.padding(top = 20.dp)){
-                Icon(imageVector = Icons.Rounded.Add, contentDescription = "Add item",)
+                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add item",)
             }
 
 
@@ -92,7 +93,7 @@ fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
         items(noteList.reversed()){note->
             Row(modifier = Modifier
                 .fillMaxWidth().
-                padding(start = 10.dp, end = 20.dp, bottom = 20.dp),
+                padding(start = 10.dp, end = 20.dp, bottom = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = note.stock)
@@ -103,26 +104,27 @@ fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
                         .background(color = Color.Black))
                 }
             }
+            HorizontalDivider(modifier = Modifier.padding(10.dp))
         }
     }
 
 }
 
 @Composable
-fun AppHeader(navController: NavController){
+fun AppHeader() {
     Row(modifier = Modifier
         .fillMaxWidth()
-        .background(MaterialTheme.colorScheme.onBackground),
+        .background(MaterialTheme.colorScheme.secondaryContainer),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
         ){
         Text(modifier = Modifier
             .padding(16.dp),
-            text = "Beatrice",
+            text = "Shop manager",
             color = Color.White,
             fontSize = 22.sp
         )
-       IconButton(onClick = { navController.navigate("debtmanager") }) {
+       IconButton(onClick = { }) {
            Icon(imageVector = Icons.Default.MoreVert, contentDescription = "Debt Manager", tint = Color.White)
        }
     }
@@ -132,7 +134,7 @@ fun AppHeader(navController: NavController){
 fun BottomBAr(navController: NavController){
     Row (modifier = Modifier
         .fillMaxWidth()
-        .background(MaterialTheme.colorScheme.onBackground),
+        .background(MaterialTheme.colorScheme.secondaryContainer),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ){
@@ -142,9 +144,9 @@ fun BottomBAr(navController: NavController){
             Icon(imageVector = Icons.Default.Home, contentDescription = "Home", tint = Color.White)
         }
         IconButton(onClick = {
-            navController.navigate("finishedstock")
+            navController.navigate("cashmanager")
         }) {
-            Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "finished Stock", tint = Color.White,)
+            Icon(imageVector = Icons.Default.DateRange, contentDescription = "finished Stock", tint = Color.White,)
         }
     }
 }

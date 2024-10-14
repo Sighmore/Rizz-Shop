@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
+import inoxoft.simon.shop.model.cash.CashDatabase
 import inoxoft.simon.shop.model.stock.StockDatabase
 import inoxoft.simon.shop.ui.ShopNavigation
 import inoxoft.simon.shop.ui.theme.ShopTheme
+import inoxoft.simon.shop.viewmodel.cash.CashViewModel
 import inoxoft.simon.shop.viewmodel.stock.Repository
 import inoxoft.simon.shop.viewmodel.stock.StockViewModel
 
@@ -28,6 +30,9 @@ class MainActivity : ComponentActivity() {
         val db by lazy {
             Room.databaseBuilder(applicationContext, StockDatabase::class.java, name="stock.db").build()
         }
+        val dbcash by lazy {
+            Room.databaseBuilder(applicationContext, CashDatabase::class.java, name="cash.db").build()
+        }
         //creation of a viewmodel
         val viewModel by viewModels<StockViewModel>(
             factoryProducer ={
@@ -38,10 +43,19 @@ class MainActivity : ComponentActivity() {
                 }
             }
         )
+        val cashViewModel by viewModels<CashViewModel>(
+            factoryProducer ={
+                object : ViewModelProvider.Factory{
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                        return CashViewModel(inoxoft.simon.shop.viewmodel.cash.Repository(dbcash)) as T
+                    }
+                }
+            }
+        )
         setContent {
             ShopTheme {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        ShopNavigation(modifier = Modifier.padding(innerPadding),viewModel)
+                        ShopNavigation(modifier = Modifier.padding(innerPadding),viewModel,cashViewModel)
 
                 }
             }

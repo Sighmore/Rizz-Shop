@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Record(
-    val cash:String,
+    val cash:Int,
     val date:String,
-    val mpesaFloat:String,
-    val totalAmount:String,
+    val mpesaFloat:Int,
+    val totalAmount:Int,
     @PrimaryKey(autoGenerate = true)
     val itemId: Int = 0
 )
