@@ -4,6 +4,12 @@
 
 This Android application helps users manage stock, cash flow (cash and float), and debts effectively. It is built using **Kotlin**, **Jetpack Compose**, **LiveData**, **ViewModel**, **App Navigation**, and **Room Database**. The app provides a user-friendly interface and smooth user experience for managing inventories, tracking cash movements, monitoring float balances, and keeping records of debts.
 
+## UI
+
+![cash and float manager](https://github.com/user-attachments/assets/968e61b7-bd27-4fe2-a1fc-b9d09b4a8f6e)              ![Homepage](https://github.com/user-attachments/assets/67c76a69-5219-42fa-8d5a-22dc7d6970e6)
+
+
+
 ## Features
 
 - **Stock Management**: Users can add, edit, and delete stock items. The app provides an inventory list with detailed information such as product name, quantity, and price.
