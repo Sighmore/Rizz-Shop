@@ -1,6 +1,5 @@
 package inoxoft.simon.shop.ui.pages
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,7 +50,7 @@ fun CashFlow(modifier: Modifier = Modifier, navController: NavController, viewMo
    }
 }
 
-@SuppressLint("SuspiciousIndentation")
+
 @Composable
 fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
 
@@ -59,52 +58,61 @@ fun CashFlowPage(modifier: Modifier = Modifier, viewModel: StockViewModel) {
     var item by remember {
         mutableStateOf("")
     }
-    Stock(
-        item
-    )
+    Stock(item)
         //creates a list of notes that observes the changes in the database
     val noteList by viewModel.getStock().observeAsState(listOf())
-    Row (modifier = modifier
-        .fillMaxSize()
-        .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top){
-            OutlinedTextField(modifier = Modifier
-                .width(250.dp)
-                .padding(10.dp)
-                .weight(1F),
-                value =item , onValueChange = {item=it}, label = { Text(text = "Item")})
+    Column(modifier = modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth() // Ensure the Row takes up full width
+                .padding(10.dp), // Padding around the Row
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top
+        ) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .width(250.dp)
+                    .weight(1F)
+                    .padding(10.dp), // Padding inside the Row
+                value = item,
+                onValueChange = { item = it },
+                label = { Text(text = "Item") }
+            )
             Button(
-
                 onClick = {
                     if (item.isNotBlank()) {
                         viewModel.upsertStock(Stock(item)) // Add item to the list
                         item = "" // Clear the text field after adding the
                     }
-                }, modifier = Modifier.padding(top = 20.dp)){
-                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add item",)
+                },
+                modifier = Modifier.padding(top = 20.dp)
+            ) {
+                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add item")
             }
-
-
-
         }
-    LazyColumn(modifier=Modifier.fillMaxWidth().padding(start = 20.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start) {
-        items(noteList.reversed()){note->
-            Row(modifier = Modifier
-                .fillMaxWidth().
-                padding(start = 10.dp, end = 20.dp, bottom = 5.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = note.stock)
-                IconButton(onClick = { viewModel.deleteStock(note) }) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete note")
-                    Spacer(modifier = Modifier
-                        .height(2.dp)
-                        .background(color = Color.Black))
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 0.dp), // Remove or reduce the top padding here
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start
+        ) {
+            items(noteList.reversed()) { note ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.dp, end = 20.dp, bottom = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = note.stock)
+                    IconButton(onClick = { viewModel.deleteStock(note) }) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete note")
+                    }
                 }
+                HorizontalDivider(modifier = Modifier.padding(5.dp))
             }
-            HorizontalDivider(modifier = Modifier.padding(10.dp))
         }
     }
 
@@ -146,7 +154,7 @@ fun BottomBAr(navController: NavController){
         IconButton(onClick = {
             navController.navigate("cashmanager")
         }) {
-            Icon(imageVector = Icons.Default.DateRange, contentDescription = "finished Stock", tint = Color.White,)
+            Icon(imageVector = Icons.Default.DateRange, contentDescription = "finished Stock", tint = Color.White)
         }
     }
 }
